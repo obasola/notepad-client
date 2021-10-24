@@ -1,5 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import About from '../views/About.vue'
 import Home from '../views/Home.vue'
+import AddCategory from '../views/AddCategory.vue'
+import EditCategory from '../views/EditCategory.vue'
+import ListCategories from '../views/ListCategories.vue'
+import AddNote from '../views/AddNote.vue'
+import EditNote from '../views/EditNote.vue'
+import ListNotes from '../views/ListNotes.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
+import ForgotPswd from '../views/ForgotPswd.vue'
 
 const routes = [
   {
@@ -23,9 +33,9 @@ const routes = [
     component: EditNote
   },
   {
-    path: '/listNote',
-    name: 'listNote',
-    component: ListNote
+    path: '/listNotes',
+    name: 'listNotes',
+    component: ListNotes
   },
   {
     path: '/addCategory',
