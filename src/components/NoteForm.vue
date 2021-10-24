@@ -96,7 +96,7 @@
 import { ref } from "vue";
 
 export default {
-  name: "PersonForm",
+  name: "NoteForm",
   setup() {
     const states = [
       { code: "CA", name: "California" },
