@@ -44,8 +44,13 @@
               </div>
             </div>
             <div class="button">
-              <button class="btn btn-primary">Save</button>
-              <button class="btn btn-danger">Reset</button>
+              <button class="btn btn-primary" 
+                  data-bs-target="#collapseTarget" 
+                  data-bs-toggle="collapse">Save</button>
+                  
+              <button class="btn btn-primary" 
+                  data-bs-target="#collapseTarget" 
+                  data-bs-toggle="collapse">Reset</button>
             </div>
           </form-group>
         </div>

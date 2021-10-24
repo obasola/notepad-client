@@ -1,13 +1,11 @@
 <template>
   <div>
-    <h2>List Categories</h2>
-    <router-link to="/addCategory">New Category</router-link>
+
   </div>
 </template>
 
 <script>
 export default {
-  name: "ListCategories",
   setup () {
     
 

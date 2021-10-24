@@ -1,12 +1,18 @@
 <template>
   <div>
-    <h2>List Categories</h2>
+    <h2>Add New Category</h2>
+
+    <CategoryForm />
   </div>
 </template>
 
 <script>
+
+import CategoryForm from "../components/CategoryForm.vue";
+
 export default {
-  name: "ListCategories",
+  name: "AddCategories",
+  components: {CategoryForm},
   setup () {
     
 
