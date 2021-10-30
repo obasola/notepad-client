@@ -1,62 +1,48 @@
 <template>
-  <div>
-    <h3>Payment</h3>
-    <form novalidate>
-      <div class="row">
-        <div class="col-md-6">
-          <div>
-            <strong>Notepad - {{ subtitle }}</strong>
-          </div>
-          <form-group>
-            <div class="form-row">
-              <div class="form-row col-md-6">
-                <label for="title">Title</label>
-                <input
-                  class="form-control"
-                  id="title"
-                  v-model="leaflet.title"
-                  type="text"
-                  placeholder="note title"
-                />
-              </div>
-              <div class="form-row col-md-6">
-                <label for="desc">Description</label>
-                <input
-                  class="form-control"
-                  id="desc"
-                  type="text"
-                  placeholder="your name"
-                  v-model="leaflet.description"
-                />
-              </div>
-
-              <div class="form-group col-md-6">
-                <label for="state-province">State/Province</label>
-                <select
-                  class="form-control"
-                  id="stateProvince"
-                  v-model="payment.state"
-                >
-                  <option v-for="s in docTypes" :key="s.code">
-                    {{ s.name }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="button">
-              <button class="btn btn-primary" 
-                  data-bs-target="#collapseTarget" 
-                  data-bs-toggle="collapse">Save</button>
-                  
-              <button class="btn btn-primary" 
-                  data-bs-target="#collapseTarget" 
-                  data-bs-toggle="collapse">Reset</button>
-            </div>
-          </form-group>
-        </div>
+  <div class="boxLayout">
+    <h3>{{ subtitle }}</h3>
+    
+    <form novalidate class="formlayout">
+      <div class="mb-3">
+        <label class="my-form-label" 
+          style="float:left; margin-left: 0.5em" 
+          for="title">Title</label>
+        <input
+          class="form-control"
+          id="title"
+          v-model="note.title"
+          type="text"
+          placeholder="your name"
+        />
       </div>
-      <div>
-        <pre>{{ payment }}</pre>
+      <div class="mb-3">
+        <label class="my-form-label" for="desc">Description</label>
+        <input
+          class="form-control"
+          id="desc"
+          type="text"
+          placeholder="your name"
+          v-model="note.desc"
+        />
+      </div>
+  
+      <br />
+      <div class="mb-3">
+        <button
+          class="btn btn-primary"
+          data-bs-target="#collapseTarget"
+          data-bs-toggle="collapse"
+        >
+          Save
+        </button>
+
+        <button
+          class="btn btn-primary"
+          data-bs-target="#collapseTarget"
+          data-bs-toggle="collapse"
+        >
+          Reset
+        </button>
       </div>
     </form>
   </div>
@@ -71,23 +57,14 @@ export default {
     subtitle: String,
   },
   setup() {
-    const docTypes = [
-      { code: "H2", name: "How 2" },
-      { code: "OB", name: "On-Boarding" },
-      { code: "DC", name: "Documents" },
-      { code: "MI", name: "Misc" },
-    ];
-
-    const leaflet = ref({
-      title: "",
-      description: "",
-      category: "",
-      dateRecorded: "",
+    const note = ref({
+      title: '',
+      desc : '',
     });
+
     return {
-      leaflet,
-      docTypes,
-    };
+      note
+    }
   },
 };
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
     <NoteForm subtitle="Add New Note" />
   </div>
 </template>
