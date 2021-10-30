@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>List Categories</h2>
-    <router-link to="/addCategory">New Category</router-link>
+    <button class="btn-primary">New Category</button>
   </div>
 </template>
 

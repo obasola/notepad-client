@@ -29,7 +29,7 @@
   
       <br />
       <div class="mb-3">
-        <router-link to="/forgot">forgot pswd</router-link> |
+        <router-link to="/forgotPswd">forgot pswd</router-link> |
         <router-link to="/register">register</router-link> &nbsp;
         <button
           class="btn btn-primary"
