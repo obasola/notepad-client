@@ -1,35 +1,32 @@
 <template>
   <div>
     <h2>List Categories</h2>
-    <button @click="openCategoryForm()" class="btn-primary">New Category</button>
+    <router-link to="/addCategory">New Category</router-link>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import Job from '@/types/Job'
-import OrderTerm from '@/types/OrderTerm'
-import JobList from './components/JobList.vue'
-import router from '../router';
+
+import Note from '../types/Note'
+
 
 export default defineComponent({
   name: 'ListCategories',
-  components: { JobList },
+  components: {  },
   setup() {
     const notes = ref<Note[]>([
-      { title: 'How 2 Fix IntelliJ Debugger', location: 'lon lon ranch', salary: 30000, id: '1' },
-      { title: 'How 2 run AIF Load', location: 'death mountain', salary: 40000, id: '2' },
-      { title: 'How 2 run EOD job', location: 'the lost woods', salary: 35000, id: '3' },
-      { title: 'How 2 suppress emails for batch processing', location: 'lake hylia', salary: 21000, id: '4' },
-      { title: 'How 2 do full build of FraudAML project', location: 'gerudo valley', salary: 32000, id: '5' }
+      { title: 'How 2 Fix IntelliJ Debugger', desc: 'Will fill in later when back a', dateRecorded: '2021-09-04', dateModified: '2021-09-05', id: 1 },
+      { title: 'How 2 run AIF Load', desc: '',dateRecorded: '2021-09-21', dateModified: '2021-09-27', id: 1 },
+      { title: 'How 2 run EOD job', desc: '',dateRecorded: '2021-09-22', dateModified: '2021-09-25', id: 1 },
+      { title: 'How 2 suppress emails for batch processing', desc: '',dateRecorded: '2021-09-30', dateModified: '2021-10-15', id: 1 },
+      { title: 'How 2 do full build of FraudAML project', desc: '',dateRecorded: '2021-10-05', dateModified: '2021-10-25', id: 1 }
     ])
-    const order = ref<OrderTerm>('title')
 
-    const handleClick = (term: OrderTerm) => {
-      order.value = term
+    function openCategoryForm() {
+      alert("Btn clicked");
     }
-
-    return { jobs, order, handleClick }
+    return { notes, openCategoryForm }
   }
 });
 

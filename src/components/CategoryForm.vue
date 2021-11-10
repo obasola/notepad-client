@@ -4,77 +4,39 @@
     
     <form novalidate class="formlayout">
       <div class="mb-3">
-        <label class="my-form-label" style="float:left; margin-left: 0.5em" for="name">Name</label>
+        <label class="my-form-label" style="float:left; margin-left: 0.5em" for="name">Code</label>
+        <input
+          class="form-control"
+          id="code"
+          v-model="category.code"
+          type="text"
+          placeholder="Short code"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="my-form-label" for="desc">Name</label>
         <input
           class="form-control"
           id="name"
-          v-model="payment.name"
           type="text"
-          placeholder="your name"
+          placeholder="full name"
+          v-model="category.name"
         />
       </div>
       <div class="mb-3">
-        <label class="my-form-label" for="company">Company name</label>
+        <label class="my-form-label" for="addrLine1">Last Modified</label>
         <input
           class="form-control"
-          id="company"
+          id="dateModified"
           type="text"
-          placeholder="your name"
-          v-model="payment.company"
+          placeholder="last changed"
+          v-model="category.dateModified"
         />
       </div>
-      <div class="mb-3">
-        <label class="my-form-label" for="addrLine1">Address</label>
-        <input
-          class="form-control"
-          id="addrLine1"
-          type="text"
-          placeholder="your name"
-          v-model="payment.addrLine1"
-        />
-      </div>
-      <div class="mb-3">
-        <label class="my-form-label" for="addrLine2">Suite / Apt nbr</label>
-        <input
-          class="form-control"
-          id="addrLine2"
-          type="text"
-          placeholder="your name"
-        />
-      </div>
-
-      <div class="mb-3">
-        <label class="my-form-label" for="city">City</label>
-        <input
-          type="text"
-          class="form-control"
-          id="city"
-          placeholder="your city"
-          v-model="payment.city"
-        />
-      </div>
-
-      <div class="mb-3">
-        <label class="my-form-label" for="state-province">State/Province</label>
-        <select class="form-control" id="stateProvince" v-model="payment.state">
-          <option v-for="s in states" :key="s.code">
-            {{ s.name }}
-          </option>
-        </select>
-      </div>
-      <div class="mb-3">
-        <label class="my-form-label" for="zipcode">Zip Code</label>
-        <input
-          type="text"
-          class="form-control"
-          id="zipcode"
-          placeholder="10101"
-          v-model="payment.zipcode"
-        />
-      </div>
+      
       <br />
       <div class="mb-3">
-        <button
+        <button @click="addCategory"
           class="btn btn-primary"
           data-bs-target="#collapseTarget"
           data-bs-toggle="collapse"
@@ -97,31 +59,39 @@
 <script>
 import { ref } from "vue";
 import '@/assets/css/formLayout.css';
+import NotepadDataService from '../service/NotepadDataService'
 
 export default {
   name: "CategoryForm",
   setup() {
-    const states = [
-      { code: "CA", name: "California" },
-      { code: "FL", name: "Florida" },
-      { code: "GA", name: "Georgia" },
-      { code: "MN", name: "Minnesota" },
-      { code: "NY", name: "New York" },
-      { code: "TX", name: "Texas" },
-    ];
 
-    const payment = ref({
+    const category = ref({
+      code: "",
       name: "",
-      company: "",
-      addrLine1: "",
-      addrLine2: "",
-      city: "",
-      state: "",
-      zipcode: "75137",
+      dateRecored: "",
+      dateModified: "",
+      id: "",
     });
+
+    function addCategory() {
+      NotepadDataService.create(category)
+        .then(response => {
+          this.category.id = response.data.id;
+          this.category.code = response.data.code;
+          this.category.name = response.data.name;
+          this.category.dateRecored = response.data.dateRecored;
+          this.category.dateModified = response.data.dateModified;
+          console.log(response.data);
+          this.submitted = true;
+        })
+        .catch(e => {
+          console.log(e);
+      });
+    }
+
     return {
-      payment,
-      states,
+      category,
+      addCategory,
     };
   },
 };
