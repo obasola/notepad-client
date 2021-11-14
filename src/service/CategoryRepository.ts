@@ -1,9 +1,9 @@
 import axios from "axios";
 import Category from "../types/Category";
 
-const baseUR = "http://localhost:8080"
+const baseUR = "http://localhost:3080"
 
-export class CategoryRepository {
+export default class CategoryRepository {
 
   categoryRecord: Category = {
     code: "",
@@ -13,9 +13,7 @@ export class CategoryRepository {
     id: 0
   };
 
-  constructor () {
 
-  }
   getAll(): Category {
     axios
       .get(baseUR + "/categories")
