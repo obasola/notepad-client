@@ -59,8 +59,9 @@
 <script>
 import { ref } from "vue";
 import '@/assets/css/formLayout.css';
-import NotepadDataService from '../service/NotepadDataService'
+import CategoryRepository from '../service/CategoryRepository';
 
+const repository = new CategoryRepository();
 export default {
   name: "CategoryForm",
   setup() {
@@ -74,7 +75,7 @@ export default {
     });
 
     function addCategory() {
-      NotepadDataService.create(category)
+      repository.create(category)
         .then(response => {
           this.category.id = response.data.id;
           this.category.code = response.data.code;
