@@ -5,6 +5,8 @@ const baseUR = "http://localhost:3080"
 
 export default class CategoryRepository {
 
+  categories = [];
+
   categoryRecord: Category = {
     code: "",
     name: "",
@@ -18,7 +20,7 @@ export default class CategoryRepository {
     axios
       .get(baseUR + "/categories")
       .then(response => (
-        this.mapData(response.data)
+        this.categories = response.data
       ))
       .catch(error => console.log(error))
     return this.categoryRecord;
@@ -28,46 +30,47 @@ export default class CategoryRepository {
     axios
       .get(baseUR + `/category/${id}`)
       .then(response => (
-        this.mapData(response.data)
+        this.categories = response.data
       ))
       .catch(error => console.log(error))
     return this.categoryRecord;
   }
 
   create(data: Response):Category {
-    axios.post("/category", data)
+    axios.post(baseUR + "/category", data)
     .then(response => (
-      this.mapData(response.data)
+      this.categories = response.data
     ))
     .catch(error => console.log(error))
     return this.categoryRecord;
   }
 
   update(id: number, data: Response):Category {
-    axios.put(`/category/${id}`, data)
+    axios.put(baseUR + `/category/${id}`, data)
     .then(response => (
-      this.mapData(response.data)
+      this.categories = response.data
     ))
     .catch(error => console.log(error))
     return this.categoryRecord;
   }
 
   delete(id: number):void {
-    axios.delete(`/category/${id}`);
+    axios.delete(baseUR + `/category/${id}`);
   }
 
   deleteAll():void {
-    axios.delete(`/categories`);
+    axios.delete(baseUR + `/categories`);
   }
 
   findByCode(code: string):Category{
-    axios.get(`/category?code=${code}`)
+    axios.get(baseUR + `/category?code=${code}`)
     .then(response => (
-      this.mapData(response.data)
+      this.categories = response.data
     ))
     .catch(error => console.log(error))
     return this.categoryRecord;
   }
+
 
   mapData(data: Category): Category {
     this.categoryRecord.code = data.code;
