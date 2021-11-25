@@ -7,32 +7,44 @@
 
 <script lang="ts">
 import CategoryRepository  from "@/service/CategoryRepository";
-import Category from "@/types/Category";
+import Category from "@/types/CategoryType";
 import { defineComponent, onMounted, ref } from "vue";
 
-const dbRepository: CategoryRepository = new CategoryRepository();
 
 export default defineComponent({
   name: "ListCategories",
   components: {},
-  setup() {
-    const categories: Category = dbRepository.getAll();
-    let category: Category = {
-      id: 0,
-      code: "",
-      name: "",
-      dateRecorded: "",
-      dateModified: "",
+  data() {
+
+    return {
+      category: {
+        id: 0,
+        code: "",
+        name: "",
+        dateModified: new Date,
+        dateRecorded: new Date,
+      },
+      submitted: false,
     };
-
-    function openCategoryForm() {
+  },
+  computed: {
+    findAllCategories() {
+      return CategoryRepository.getAll();
+    }
+  },
+  methods: {
+    openCategoryForm() {
       alert("Btn clicked");
+    },
+
+    saveCategoryData() {
+      CategoryRepository.create(this.category);
+    },
+
+    loadSelectedCategory(selectedCat:Category) {
+      this.category = selectedCat;
     }
 
-    function loadSelectedCategory(selectedCat: Category): void {
-      category = selectedCat;
-    }
-    return { category, categories, openCategoryForm,loadSelectedCategory };
   },
 });
 </script>

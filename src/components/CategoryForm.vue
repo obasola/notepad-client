@@ -61,7 +61,6 @@ import { ref } from "vue";
 import '@/assets/css/formLayout.css';
 import CategoryRepository from '../service/CategoryRepository';
 
-const repository = new CategoryRepository();
 export default {
   name: "CategoryForm",
   setup() {
@@ -75,7 +74,7 @@ export default {
     });
 
     function addCategory() {
-      repository.create(category)
+      CategoryRepository.create(category)
         .then(response => {
           this.category.id = response.data.id;
           this.category.code = response.data.code;

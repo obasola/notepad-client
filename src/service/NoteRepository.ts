@@ -1,4 +1,4 @@
-import Note from "@/types/Note";
+import Note from "@/types/NoteType";
 import axios from "axios";
 
 const baseUR = "http://localhost:8080"

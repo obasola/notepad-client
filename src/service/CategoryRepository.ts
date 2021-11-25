@@ -1,83 +1,57 @@
-import axios from "axios";
-import Category from "../types/Category";
+import http from "../http-commons";
+import Category from "../types/CategoryType";
 
-const baseUR = "http://localhost:3080"
 
-export default class CategoryRepository {
 
-  categories = [];
+class CategoryRepository {
+
+  getAll(): Promise<any> {
+    return http.get("/categories");
+  }
+
+  get(id: any): Promise<any> {
+    return http.get(`/category/${id}`);
+  }
+
+  create(data: any): Promise<any> {
+    return http.post("/category", data);
+  }
+
+  update(id: any, data: any): Promise<any> {
+    return http.put(`/category/${id}`, data);
+  }
+
+  delete(id: any): Promise<any> {
+    return http.delete(`/category/${id}`);
+  }
+
+  deleteAll(): Promise<any> {
+    return http.delete(`/categories`);
+  }
+
+  findByCode(code: string): Promise<any> {
+    return http.get(`/category?code=${code}`);
+  }
 
   categoryRecord: Category = {
     code: "",
     name: "",
-    dateRecorded: "",
-    dateModified: "",
+    dateModified: new Date,
+    dateRecorded: new Date,
     id: 0
   };
-
-
-  getAll(): Category {
-    axios
-      .get(baseUR + "/categories")
-      .then(response => (
-        this.categories = response.data
-      ))
-      .catch(error => console.log(error))
-    return this.categoryRecord;
-  }
-
-  get(id: number):Category {
-    axios
-      .get(baseUR + `/category/${id}`)
-      .then(response => (
-        this.categories = response.data
-      ))
-      .catch(error => console.log(error))
-    return this.categoryRecord;
-  }
-
-  create(data: Response):Category {
-    axios.post(baseUR + "/category", data)
-    .then(response => (
-      this.categories = response.data
-    ))
-    .catch(error => console.log(error))
-    return this.categoryRecord;
-  }
-
-  update(id: number, data: Response):Category {
-    axios.put(baseUR + `/category/${id}`, data)
-    .then(response => (
-      this.categories = response.data
-    ))
-    .catch(error => console.log(error))
-    return this.categoryRecord;
-  }
-
-  delete(id: number):void {
-    axios.delete(baseUR + `/category/${id}`);
-  }
-
-  deleteAll():void {
-    axios.delete(baseUR + `/categories`);
-  }
-
-  findByCode(code: string):Category{
-    axios.get(baseUR + `/category?code=${code}`)
-    .then(response => (
-      this.categories = response.data
-    ))
-    .catch(error => console.log(error))
-    return this.categoryRecord;
-  }
-
-
-  mapData(data: Category): Category {
-    this.categoryRecord.code = data.code;
-    this.categoryRecord.name = data.name;
-    this.categoryRecord.dateModified = data.dateModified;
-    this.categoryRecord.dateRecorded = data.dateRecorded;
-    this.categoryRecord.id = data.id;
-    return this.categoryRecord;
-  }
+    mapData(data: Category): Category {
+      this.categoryRecord.code = data.code;
+      this.categoryRecord.name = data.name;
+      this.categoryRecord.dateModified = data.dateModified;
+      this.categoryRecord.dateRecorded = data.dateRecorded;
+      this.categoryRecord.id = data.id;
+      return this.categoryRecord;
+    }
 }
+
+export default new CategoryRepository();
+
+
+
+
