@@ -1,7 +1,7 @@
 import NoteType from "@/types/NoteType";
 import BaseModel from "./BaseModel";
 
-export class Note extends BaseModel implements NoteType {
+export class NoteModel extends BaseModel implements NoteType {
   id            = 0;
   title         = "";
   desc          = "";
@@ -17,4 +17,4 @@ export class Note extends BaseModel implements NoteType {
     this.categoryId = categoryId;
   }
 }
-export default Note;
+export default NoteModel;

@@ -71,7 +71,7 @@
 <script lang="ts">
 import { ref } from "vue";
 import note from '@/store/modules/note';
-import NoteModel from '../models/Note';
+import NoteModel from '../models/NoteModel';
 
 export default {
   name: "NoteForm",
