@@ -1,103 +1,29 @@
 <template>
   <div>
-    
-   
-    <div class="list row">
-
-    <div class="col-md-6">
-      <h4>Category List</h4>
-      <table class="table table-dark table=striped">
-        <thead>
-          <tr>
-            <th class="label-hdrtext" scope="col">Id</th>
-            <th class="label-hdrtext" scope="col">Code</th>
-            <th class="label-hdrtext" scope="col">Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="category in categories" :key="category.id">           
-           <td class="label-text">{{category.id}}</td>
-           <td class="label-text">{{category.code}}</td>
-           <td class="label-text">{{category.description}}</td>
-         </tr>
-        </tbody>
-      </table>
-
-      <button class="m-3 btn btn-sm btn-success" @click="findAllCategories">
-        Refresh
-      </button>
-       <button class="m-3 btn btn-sm btn-info" @click="addNewCategoryCode">
-        New Category
-      </button>
-      <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
-        Remove All
-      </button>
-
-    </div>
-
-  </div>
-
+      <CategoryList />
   </div>
 </template>
 
 <script lang="ts">
-import CategoryRepository  from "@/service/CategoryRepository";
-import Category from "../types/CategoryType";
-import CategoryModel from "../models/CategoryModel";
-import { defineComponent} from "vue";
+import CategoryList from "../components/CategoryList.vue";
 
+import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ListCategories",
-  components: {},
+  components: {CategoryList},
   data() {
-    
     return {
       categories: [],
-      category: this.newCatagory(),
-      submitted: false,
-    };
-  },
-
-  methods: {
-    newCatagory() {
-      let category = {
+      category: {
         id: 0,
         code: "",
         name: "",
-        dateModified: new Date,
         dateRecorded: new Date,
-      }
-      this.submitted = false;
-      return category;
-    },
-    openCategoryForm() {
-      alert("Btn clicked");
-    },
-
-    saveCategoryData() {
-      CategoryRepository.create(this.category);
-    },
-
-    loadSelectedCategory(selectedCat:CategoryModel) {
-      this.category = selectedCat;
-    },
-    addNewCategoryCode() {  // an alternative way
-      this.$router.push('/addCategory'); 
-    },
-    findAllCategories() {
-      CategoryRepository.getAll()
-      .then(response => {
-        this.categories = response.data;
-        console.log(response.data);
-        //return this.categories;
-      })
-      .catch(e => {
-          console.log(e);
-        });
-        
-    }
-
+        dataModified: new Date,
+      },
+      submitted: false,
+    };
   },
 });
 </script>
@@ -122,16 +48,15 @@ button {
 
 .cat-table {
   margin-left: 15px;
-  
 }
 .label-text {
-  color: #A9D387;
+  color: #a9d387;
 }
 .label-hdrtext {
-  color: #A7DD8F;
+  color: #a7dd8f;
   font-weight: bolder;
 }
 .left-align {
-  float:left;
+  float: left;
 }
 </style>
