@@ -23,16 +23,6 @@
           v-model="category.name"
         />
       </div>
-      <div class="mb-3">
-        <label class="my-form-label" for="addrLine1">Last Modified</label>
-        <input
-          class="form-control"
-          id="dateModified"
-          type="text"
-          placeholder="last changed"
-          v-model="category.dateModified"
-        />
-      </div>
       
       <br />
       <div class="mb-3">
@@ -74,18 +64,20 @@ export default {
     });
 
     function addCategory() {
+
+      this.category.dateRecored = new Date;
+      this.category.dateModified = null;
+
       CategoryRepository.create(category)
         .then(response => {
           this.category.id = response.data.id;
-          this.category.code = response.data.code;
-          this.category.name = response.data.name;
-          this.category.dateRecored = response.data.dateRecored;
-          this.category.dateModified = response.data.dateModified;
           console.log(response.data);
           this.submitted = true;
+          alert("Success, category Id is: "+response.data.id);
         })
         .catch(e => {
           console.log(e);
+          alert("Error: "+e);
       });
     }
 

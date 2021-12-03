@@ -10,19 +10,19 @@ class CategoryRepository {
   }
 
   get(id: any): Promise<any> {
-    return http.get(`/category/${id}`);
+    return http.get(`/categories/${id}`);
   }
 
   create(data: any): Promise<any> {
-    return http.post("/category", data);
+    return http.post("/categories", data);
   }
 
   update(id: any, data: any): Promise<any> {
-    return http.put(`/category/${id}`, data);
+    return http.put(`/categories/${id}`, data);
   }
 
   delete(id: any): Promise<any> {
-    return http.delete(`/category/${id}`);
+    return http.delete(`/categories/${id}`);
   }
 
   deleteAll(): Promise<any> {
@@ -30,10 +30,10 @@ class CategoryRepository {
   }
 
   findByCode(code: string): Promise<any> {
-    return http.get(`/category?code=${code}`);
+    return http.get(`/categories?code=${code}`);
   }
 
-  categoryRecord: Category = {
+  categoriesRecord: Category = {
     code: "",
     name: "",
     dateModified: new Date,
@@ -41,12 +41,12 @@ class CategoryRepository {
     id: 0
   };
     mapData(data: Category): Category {
-      this.categoryRecord.code = data.code;
-      this.categoryRecord.name = data.name;
-      this.categoryRecord.dateModified = data.dateModified;
-      this.categoryRecord.dateRecorded = data.dateRecorded;
-      this.categoryRecord.id = data.id;
-      return this.categoryRecord;
+      this.categoriesRecord.code = data.code;
+      this.categoriesRecord.name = data.name;
+      this.categoriesRecord.dateModified = data.dateModified;
+      this.categoriesRecord.dateRecorded = data.dateRecorded;
+      this.categoriesRecord.id = data.id;
+      return this.categoriesRecord;
     }
 }
 

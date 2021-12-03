@@ -76,13 +76,21 @@
               </div>
             </div>
             <div class="button">
-              <button class="btn btn-primary" 
-                  data-bs-target="#collapseTarget" 
-                  data-bs-toggle="collapse">Save</button>
-                  
-              <button class="btn btn-primary" 
-                  data-bs-target="#collapseTarget" 
-                  data-bs-toggle="collapse">Reset</button>
+              <button
+                class="btn btn-primary"
+                data-bs-target="#collapseTarget"
+                data-bs-toggle="collapse"
+              >
+                Save
+              </button>
+
+              <button
+                class="btn btn-primary"
+                data-bs-target="#collapseTarget"
+                data-bs-toggle="collapse"
+              >
+                Reset
+              </button>
             </div>
           </form-group>
         </div>
@@ -97,36 +105,27 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from "vue";
 
-export default {
-  name: "PersonForm",
-  setup() {
-    const states = [
-      { code: "CA", name: "California" },
-      { code: "FL", name: "Florida" },
-      { code: "GA", name: "Georgia" },
-      { code: "MN", name: "Minnesota" },
-      { code: "NY", name: "New York" },
-      { code: "TX", name: "Texas" },
-    ];
+const states = [
+  { code: "CA", name: "California" },
+  { code: "FL", name: "Florida" },
+  { code: "GA", name: "Georgia" },
+  { code: "MN", name: "Minnesota" },
+  { code: "NY", name: "New York" },
+  { code: "TX", name: "Texas" },
+];
 
-    const payment = ref({
-      name: "",
-      company: "",
-      addrLine1: "",
-      addrLine2: "",
-      city: "",
-      state: "",
-      zipcode: "75137",
-    });
-    return {
-      payment,
-      states,
-    };
-  },
-};
+const payment = ref({
+  name: "",
+  company: "",
+  addrLine1: "",
+  addrLine2: "",
+  city: "",
+  state: "",
+  zipcode: "75137",
+});
 </script>
 
 <style lang="css">

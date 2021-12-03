@@ -25,7 +25,7 @@
         <input
           class="form-control"
           id="title"
-          v-model="note.title"
+          v-model="noteModel.title"
           type="text"
           placeholder="your name"
         />
@@ -37,7 +37,7 @@
           id="desc"
           type="text"
           placeholder="your name"
-          v-model="note.desc"
+          v-model="noteModel.desc"
         />
       </div>
 
@@ -68,20 +68,17 @@
   </div>
 </template>
 
-<script lang="ts">
-import { ref } from "vue";
-import note from '@/store/modules/note';
+<script setup lang="ts">
+import { ref, defineProps } from "vue";
 import NoteModel from '../models/NoteModel';
+import NoteModule from "@/store/modules/note";
 
-export default {
-  name: "NoteForm",
-  props: {
-    subtitle: String,
-  },
+ const props = defineProps({
+    subtitle: String
+  })
   
-  setup() {
-    const selectedCategory = ref('');
-    let noteModel:NoteModel;
+   const selectedCategory = ref('');
+   const noteModel = NoteModel;
     const options = [
       {
         code: "ZZ",
@@ -109,12 +106,6 @@ export default {
       }
     ]
  
-    const note = ref({
-      title: "",
-      desc: "",
-      category: "",
-    });
-  
  
     function setCategory(event:Event) {
      // selectedCategory.value = event.target.value;
@@ -139,11 +130,7 @@ export default {
     //  alert("clearForm: entrypoint");
       return false;
     }
-    return {
-      note, selectedCategory, options, canShowTitle, setCategory, addNote
-    };
-  },
-};
+ 
 </script>
 
 <style lang="css">

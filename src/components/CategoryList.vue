@@ -1,94 +1,91 @@
 <template>
   <div class="list row">
-      <div class="col-md-6">
-        <h4>Category List</h4>
-        <table class="table table-dark table=striped">
-          <thead>
-            <tr>
-              <th class="label-hdrtext" scope="col">Id</th>
-              <th class="label-hdrtext" scope="col">Code</th>
-              <th class="label-hdrtext" scope="col">Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="category in categories" :key="category.id">
-              <td class="label-text">{{ category.id }}</td>
-              <td class="label-text">{{ category.code }}</td>
-              <td class="label-text">{{ category.description }}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div class="col-md-6">
+      <h4>Category List</h4>
+      <table class="table table-dark table=striped">
+        <thead>
+          <tr>
+            <th class="label-hdrtext" scope="col">Id</th>
+            <th class="label-hdrtext" scope="col">Code</th>
+            <th class="label-hdrtext" scope="col">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="category in categories" :key="category.id">
+            <td class="label-text">{{ category.id }}</td>
+            <td class="label-text">{{ category.code }}</td>
+            <td class="label-text">{{ category.description }}</td>
+          </tr>
+        </tbody>
+      </table>
 
-        <button class="m-3 btn btn-sm btn-success" @click="findAllCategories">
-          Refresh
-        </button>
-        <button class="m-3 btn btn-sm btn-info" @click="addNewCategoryCode">
-          New Category
-        </button>
-        <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
-          Remove All
-        </button>
-      </div>
+      <button class="m-3 btn btn-sm btn-success" @click="findAllCategories">
+        Refresh
+      </button>
+      <button class="m-3 btn btn-sm btn-info" @click="addNewCategoryCode">
+        New Category
+      </button>
+      <button class="m-3 btn btn-sm btn-danger" @click="removeAllTutorials">
+        Remove All
+      </button>
     </div>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { ref } from "vue";
 import CategoryRepository from "@/service/CategoryRepository";
 import Category from "../types/CategoryType";
 import CategoryModel from "../models/CategoryModel";
-import { defineComponent } from "vue";
+import { useRouter, useRoute } from 'vue-router'
 
-export default defineComponent({
-  name: "CategoryList",
-  components: {},
-  data() {
-    return {
-      categories: [],
-      category: this.newCatagory(),
-      submitted: false,
-    };
-  },
+const categories = ref([]);
+const submitted = ref(false);
 
-  methods: {
-    newCatagory() {
-      let category = {
-        id: 0,
-        code: "",
-        name: "",
-        dateModified: new Date(),
-        dateRecorded: new Date(),
-      };
-      this.submitted = false;
-      return category;
-    },
-    openCategoryForm() {
-      alert("Btn clicked");
-    },
-
-    saveCategoryData() {
-      CategoryRepository.create(this.category);
-    },
-
-    loadSelectedCategory(selectedCat: CategoryModel) {
-      this.category = selectedCat;
-    },
-    addNewCategoryCode() {
-      // an alternative way
-      this.$router.push("/addCategory");
-    },
-    findAllCategories() {
-      CategoryRepository.getAll()
-        .then((response) => {
-          this.categories = response.data;
-          console.log(response.data);
-          //return this.categories;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-  },
+const category = ref({
+  id: 0,
+  code: "",
+  name: "",
+  dateModified: new Date(),
+  dateRecorded: new Date(),
 });
+
+function newCatagory() {
+  category.value.id = 0;
+  category.value.code = "";
+  category.value.name = "";
+  category.value.dateRecorded = new Date();
+  category.value.dateModified = new Date();
+  submitted.value = false;
+}
+
+function openCategoryForm() {
+  alert("Btn clicked");
+}
+
+function saveCategoryData() {
+  CategoryRepository.create(category);
+}
+
+function loadSelectedCategory(selectedCat: CategoryModel) {
+  category.value = selectedCat;
+}
+
+function addNewCategoryCode() {
+  // an alternative way
+  useRoute.call("/addCategory");
+}
+function findAllCategories() {
+  CategoryRepository.getAll()
+    .then((response) => {
+      categories.value = response.data;
+      console.log(response.data);
+      //return this.categories;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+}
 </script>
 
 <style>

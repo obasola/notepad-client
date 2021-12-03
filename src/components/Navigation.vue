@@ -16,14 +16,18 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li  style="margin-top: 0.5em;">
+            <li style="margin-top: 0.5em">
               <span>
-                <router-link to="/" style="text-decoration: none">Home</router-link>&nbsp;
+                <router-link to="/" style="text-decoration: none"
+                  >Home</router-link
+                >&nbsp;
               </span>
             </li>
-            <li style="margin-top: 0.5em;">
+            <li style="margin-top: 0.5em">
               <span>
-                <router-link to="/about" style="text-decoration: none">About</router-link>
+                <router-link to="/about" style="text-decoration: none"
+                  >About</router-link
+                >
               </span>
             </li>
             <li class="nav-item dropdown">
@@ -38,10 +42,17 @@
                 Reports
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <router-link to="/listCategories" style="text-decoration: none">Categories</router-link><br>
-                <router-link to="/listNotes" style="text-decoration: none">Notes</router-link><br>
-                <li><hr class="dropdown-divider" /></li><br>
-                <router-link to="/" style="text-decoration: none">Users</router-link>
+                <router-link to="/listCategories" style="text-decoration: none"
+                  >Categories</router-link
+                ><br />
+                <router-link to="/listNotes" style="text-decoration: none"
+                  >Notes</router-link
+                ><br />
+                <li><hr class="dropdown-divider" /></li>
+                <br />
+                <router-link to="/" style="text-decoration: none"
+                  >Users</router-link
+                >
               </ul>
             </li>
 
@@ -62,7 +73,7 @@
                   class="styleClass"
                   aria-disabled="ariaDisabledFlag"
                   >Logout</router-link
-                ><br>
+                ><br />
                 <router-link
                   to="/Login"
                   class="styleClass"
@@ -99,37 +110,29 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from "vue";
-// import Vuex from 'vuex'
 
-export default {
-  name: "Navigation",
+const notLoggedIn = ref(true);
+const linkDisabled = "nav-link disabled";
+const styleClass = ref("");
+const ariaDisabledFlag = ref(true);
+const userkey = ref({
+  id: "",
+  name: "",
+  userId: "",
+  password: "",
+  confirmPswd: "",
+});
 
-  setup() {
-    const notLoggedIn = ref(true);
-    const linkDisabled = "nav-link disabled";
-    let styleClass = "";
-    const ariaDisabledFlag = true;
-    const userkey = ref({
-      id: "",
-      name: "",
-      userId: "",
-      password: "",
-      confirmPswd: "",
-    });
-
-    function isLoggedIn() {
-      if (this.notLoggedIn) {
-        this.ariaDisabledFlag = true;
-        this.styleClass = this.linkDisabled;
-      } else {
-        this.ariaDisabledFlag = false;
-      }
-      console.log("styleClass = " + this.styleClass);
-      return ariaDisabledFlag;
-    }
-    return { userkey, isLoggedIn, styleClass, ariaDisabledFlag };
-  },
-};
+function isLoggedIn() {
+  if (notLoggedIn.value === true) {
+    ariaDisabledFlag.value = true;
+    styleClass.value = linkDisabled;
+  } else {
+    ariaDisabledFlag.value = false;
+  }
+  console.log("styleClass = " + this.styleClass);
+  return ariaDisabledFlag;
+}
 </script>
