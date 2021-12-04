@@ -37,8 +37,10 @@ import { ref } from "vue";
 import CategoryRepository from "@/service/CategoryRepository";
 import Category from "../types/CategoryType";
 import CategoryModel from "../models/CategoryModel";
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute} from 'vue-router'
 
+const router =  useRouter();
+const route  = useRoute();
 const categories = ref([]);
 const submitted = ref(false);
 
@@ -73,7 +75,11 @@ function loadSelectedCategory(selectedCat: CategoryModel) {
 
 function addNewCategoryCode() {
   // an alternative way
-  useRoute.call("/addCategory");
+  router.push({
+    name: "AddCategory",
+    params: {
+      ...route.params
+    }});
 }
 function findAllCategories() {
   CategoryRepository.getAll()
