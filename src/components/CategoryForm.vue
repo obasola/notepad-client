@@ -1,7 +1,7 @@
 <template>
   <div class="boxLayout">
     <h3>{{ subtitle }}</h3>
-    
+
     <form novalidate class="formlayout">
       <div class="mb-3">
         <label class="my-form-label" style="float:left; margin-left: 0.5em" for="name">Code</label>
@@ -23,7 +23,7 @@
           v-model="category.name"
         />
       </div>
-      
+
       <br />
       <div class="mb-3">
         <button @click="addCategory"
@@ -67,7 +67,7 @@ export default {
 
       this.category.dateRecored = new Date;
       this.category.dateModified = null;
-
+      
       CategoryRepository.create(category)
         .then(response => {
           this.category.id = response.data.id;
