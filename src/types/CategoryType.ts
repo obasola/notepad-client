@@ -1,8 +1,8 @@
 interface CategoryType {
   id: number
   code: string,
-  name: string,
+  desc: string,
   dateRecorded: Date,
-  dateModified: Date,  
+  dateModified: Date,
 }
 export default CategoryType;

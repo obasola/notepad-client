@@ -14,12 +14,12 @@
         <select
           class="form-select"
           v-model="selectedCategory"
-          @change="setCategory($event)"
+          @change="setCategory($event, $event.target.selectedIndex)"
         >
           <option
             v-for="category in categories"
             :key="category.id"
-            :value="category.desc"
+            :value="category.id"
           >
             {{ category.desc }}
           </option>
@@ -35,7 +35,7 @@
         <input
           class="form-control"
           id="title"
-          v-model="noteModel.title"
+          v-model="note.title"
           type="text"
           placeholder="your name"
         />
@@ -46,8 +46,8 @@
           style="float: left; margin-left: 0.5em"
           for="desc"
           >Description</label
-        >
-        <quill-editor id="desc" v-model="noteModel.desc" theme="snow" toolbar="minimal"></quill-editor>
+        ><br/>
+        <quill-editor style="background-color: white" id="desc" v-model:content="noteDescription" theme="snow" toolbar="minimal"></quill-editor>
       </div>
 
       <br />
@@ -80,7 +80,9 @@
 <script setup lang="ts">
 import { ref, defineProps } from "vue";
 import NoteModel from "../models/NoteModel";
+import Category from "../models/CategoryModel";
 import CategoryRepository from '../service/CategoryRepository';
+import NoteRepository from '../service/NoteRepository';
 import NoteModule from "../store/modules/note";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -90,12 +92,21 @@ const props = defineProps({
 });
 
 const selectedCategory = ref("");
+const noteDescription = ref("");
 const noteModel = NoteModel;
-const categories = ref([]);
-const category = ref({
+const categories = ref([{
   id: 0,
   code: "",
   desc: "",
+  dateModified: new Date(),
+  dateRecorded: new Date(),
+}]);
+const note = ref({
+  id: 0,
+  categoryId: 1,
+  personId: 1,
+  title: "",
+  note: "",
   dateModified: new Date(),
   dateRecorded: new Date(),
 });
@@ -116,10 +127,17 @@ async function loadCategorySelectList() {
     });
 
 }
-function setCategory(event: Event) {
+function setCategory(event: Event, selectedIndex: number) {
   //alert("selectedCategory =  "+ event.target);
-  this.selectedCategory.value = event.target;
-  //alert("selectedCategory =  "+ selectedCategory.value);
+  //this.selectedCategory.value = event.target;
+  console.log(event, selectedIndex);
+  let tempCatList = categories;
+  const catInstance: Category = tempCatList.value[selectedIndex];
+
+  selectedCategory.value = catInstance.id + "";
+  console.log("catInstance: "+catInstance);
+  console.log("selectedCategory: "+selectedCategory.value);
+
 }
 
 function canShowTitle() {
@@ -133,12 +151,14 @@ function canShowTitle() {
 }
 
 function addNote() {
-  alert("AddNote: entrypoint: selectedCategory = "+this.selectedCategory);
-  console.log("NoteModel = "+this.NoteModel);
- // alert("Note"+this.NoteModel);
-  NoteModel.personId = 1;
-  NoteModel.categoryId = selectedCategory;
-  alert("NoteModel = "+NoteModel);
+
+  note.value.categoryId = parseInt(selectedCategory.value);
+  note.value.note = noteDescription.value;
+  console.log("Note: "+note.value);
+  alert("repo = "+NoteRepository);
+  NoteRepository.create(note);
+
+
   return false;
 }
 function clearForm() {
@@ -153,3 +173,5 @@ function clearForm() {
   float: right;
 }
 </style>
+
+

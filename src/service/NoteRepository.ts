@@ -3,20 +3,19 @@ import axios from "axios";
 
 const baseUR = "http://localhost:8080"
 
-export class NoteRepository {
+class NoteRepository {
 
   noteRecord: Note = {
     id: 0,
+    categoryId: 0,
     title: "",
     desc: "",
-    dateRecorded: "",
-    dateModified: "",
+    dateRecorded: new Date(),
+    dateModified: new Date(),
     personId: 0
   };
 
-  constructor () {
 
-  }
   getAll(): Note {
     axios
       .get(baseUR + "/notes")
@@ -82,3 +81,6 @@ export class NoteRepository {
     return this.noteRecord;
   }
 }
+export default new NoteRepository();
+
+
