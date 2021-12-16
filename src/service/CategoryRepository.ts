@@ -60,14 +60,14 @@ class CategoryRepository {
 
   categoriesRecord: Category = {
     code: "",
-    name: "",
-    dateModified: new Date,
-    dateRecorded: new Date,
+    desc: "",
+    dateModified: new Date(),
+    dateRecorded: new Date(),
     id: 0
   };
     mapData(data: Category): Category {
       this.categoriesRecord.code = data.code;
-      this.categoriesRecord.name = data.name;
+      this.categoriesRecord.desc = data.desc;
       this.categoriesRecord.dateModified = data.dateModified;
       this.categoriesRecord.dateRecorded = data.dateRecorded;
       this.categoriesRecord.id = data.id;

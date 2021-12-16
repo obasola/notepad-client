@@ -11,8 +11,18 @@
           for="Category"
           >Category</label
         >
-        <select class="form-select" v-model="selectedCategory" @change="setCategory($event)">
-          <option v-for="option in options" :key=option.code :value="option.code">{{option.desc}}</option>
+        <select
+          class="form-select"
+          v-model="selectedCategory"
+          @change="setCategory($event, $event.target.selectedIndex)"
+        >
+          <option
+            v-for="category in categories"
+            :key="category.id"
+            :value="category.id"
+          >
+            {{ category.desc }}
+          </option>
         </select>
       </div>
       <div class="mb-3" v-if="canShowTitle()">
@@ -25,20 +35,19 @@
         <input
           class="form-control"
           id="title"
-          v-model="noteModel.title"
+          v-model="note.title"
           type="text"
           placeholder="your name"
         />
       </div>
       <div class="mb-3">
-        <label class="my-form-label" for="desc">Description</label>
-        <input
-          class="form-control"
-          id="desc"
-          type="text"
-          placeholder="your name"
-          v-model="noteModel.desc"
-        />
+        <label
+          class="my-form-label"
+          style="float: left; margin-left: 0.5em"
+          for="desc"
+          >Description</label
+        ><br/>
+        <quill-editor style="background-color: white" id="desc" v-model:content="noteDescription" theme="snow" toolbar="minimal"></quill-editor>
       </div>
 
       <br />
@@ -70,67 +79,93 @@
 
 <script setup lang="ts">
 import { ref, defineProps } from "vue";
-import NoteModel from '../models/NoteModel';
-import NoteModule from "@/store/modules/note";
+import NoteModel from "../models/NoteModel";
+import Category from "../models/CategoryModel";
+import CategoryRepository from '../service/CategoryRepository';
+import NoteRepository from '../service/NoteRepository';
+import NoteModule from "../store/modules/note";
+import { QuillEditor } from "@vueup/vue-quill";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
- const props = defineProps({
-    subtitle: String
-  })
-  
-   const selectedCategory = ref('');
-   const noteModel = NoteModel;
-    const options = [
-      {
-        code: "ZZ",
-        desc: "Choose"
-      },
-      {
-        code: "H2",
-        desc: "How To"
-      },
-      {
-        code: "OB",
-        desc: "On-Boarding"
-      },
-      {
-        code: "SS",
-        desc: "Sql Scripts"
-      },
-      {
-        code: "MS",
-        desc: "Misc"
-      },
-      {
-        code: "TO",
-        desc: "Todo"
-      }
-    ]
- 
- 
-    function setCategory(event:Event) {
-     // selectedCategory.value = event.target.value;
-     //alert("selectedCategory =  "+ selectedCategory.value);
-    }
+const props = defineProps({
+  subtitle: String,
+});
 
-    function canShowTitle() {
-      let rc = true;
+const selectedCategory = ref("");
+const noteDescription = ref("");
+const noteModel = NoteModel;
+const categories = ref([{
+  id: 0,
+  code: "",
+  desc: "",
+  dateModified: new Date(),
+  dateRecorded: new Date(),
+}]);
+const note = ref({
+  id: 0,
+  categoryId: 1,
+  personId: 1,
+  title: "",
+  note: "",
+  dateModified: new Date(),
+  dateRecorded: new Date(),
+});
 
-      if(selectedCategory.value === 'TO') {
-        rc = false;
-      }
-      //alert("return value = "+ rc);
-      return rc;
-    }
+loadCategorySelectList();
 
-    function addNote() {
-     // alert("AddNote: entrypoint");
-      return false;
-    }
-    function clearForm() {
-    //  alert("clearForm: entrypoint");
-      return false;
-    }
- 
+
+async function loadCategorySelectList() {
+
+  CategoryRepository.getAll()
+    .then((response) => {
+      categories.value = response.data;
+      console.log(response.data);
+      //return this.categories;
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+
+}
+function setCategory(event: Event, selectedIndex: number) {
+  //alert("selectedCategory =  "+ event.target);
+  //this.selectedCategory.value = event.target;
+  console.log(event, selectedIndex);
+  let tempCatList = categories;
+  const catInstance: Category = tempCatList.value[selectedIndex];
+
+  selectedCategory.value = catInstance.id + "";
+  console.log("catInstance: "+catInstance);
+  console.log("selectedCategory: "+selectedCategory.value);
+
+}
+
+function canShowTitle() {
+  let rc = true;
+
+  if (selectedCategory.value === "TO") {
+    rc = false;
+  }
+  //alert("return value = "+ rc);
+  return rc;
+}
+
+function addNote() {
+
+  note.value.categoryId = parseInt(selectedCategory.value);
+  note.value.note = noteDescription.value;
+  console.log("Note: "+note.value);
+  alert("repo = "+NoteRepository);
+  NoteRepository.create(note);
+
+
+  return false;
+}
+function clearForm() {
+  //  alert("clearForm: entrypoint");
+  return false;
+}
+
 </script>
 
 <style lang="css">
@@ -138,3 +173,5 @@ import NoteModule from "@/store/modules/note";
   float: right;
 }
 </style>
+
+

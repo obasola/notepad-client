@@ -12,5 +12,6 @@ app
   .use(createPinia())
   .use(router)
   .use(VueAxios, axios)
+  .use(createPinia())
   .provide('axios', app.config.globalProperties.axios)  // provide 'axios'
   .mount('#app')
