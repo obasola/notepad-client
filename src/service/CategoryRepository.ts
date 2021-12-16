@@ -1,10 +1,35 @@
+import { ref } from "vue";
 import http from "../http-commons";
 import Category from "../types/CategoryType";
 
 
 
 class CategoryRepository {
+  
+  category = {
+    id: 0,
+    code: "",
+    name: "",
+    dateModified: new Date(),
+    dateRecorded: new Date(),
+  };
+  
+  categories = [];
 
+  findAllCategories() {
+    http.get("/categories")
+      .then((response) => {
+        this.categories = response.data;
+        console.log(response.data);
+        //return this.categories;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+
+      return this.categories;
+    }
+  
   getAll(): Promise<any> {
     return http.get("/categories");
   }

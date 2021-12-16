@@ -1,7 +1,7 @@
 import CategoryType from "@/types/CategoryType";
 import BaseModel from "./BaseModel";
 
-export class CategoryModel extends BaseModel implements CategoryType {
+class CategoryModel extends BaseModel implements CategoryType {
 
   id = 0;
   code = "";

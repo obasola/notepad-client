@@ -37,10 +37,10 @@ import { ref } from "vue";
 import CategoryRepository from "@/service/CategoryRepository";
 import Category from "../types/CategoryType";
 import CategoryModel from "../models/CategoryModel";
-import { useRouter, useRoute} from 'vue-router'
+import { useRouter, useRoute } from "vue-router";
 
-const router =  useRouter();
-const route  = useRoute();
+const router = useRouter();
+const route = useRoute();
 const categories = ref([]);
 const submitted = ref(false);
 
@@ -78,19 +78,13 @@ function addNewCategoryCode() {
   router.push({
     name: "AddCategory",
     params: {
-      ...route.params
-    }});
+      ...route.params,
+    },
+  });
 }
-function findAllCategories() {
-  CategoryRepository.getAll()
-    .then((response) => {
-      categories.value = response.data;
-      console.log(response.data);
-      //return this.categories;
-    })
-    .catch((e) => {
-      console.log(e);
-    });
+async function findAllCategories() {
+  categories.value = await CategoryRepository.findAllCategories();
+  
 }
 </script>
 
