@@ -1,5 +1,5 @@
 import Note from "@/types/NoteType";
-import axios from "axios";
+import http from "../http-commons";
 
 const baseUR = "http://localhost:8080"
 
@@ -15,9 +15,23 @@ class NoteRepository {
     personId: 0
   };
 
+  notes = [];
 
-  getAll(): Note {
-    axios
+  findAllNotes() {
+    http.get("/notes")
+      .then((response) => {
+        this.notes = response.data;
+        console.log(response.data);
+        return this.notes;
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+      return [];       
+    }
+
+  getAll(): Note{
+    http
       .get(baseUR + "/notes")
       .then(response => (
         this.mapData(response.data)
@@ -27,7 +41,7 @@ class NoteRepository {
   }
 
   get(id: number):Note {
-    axios
+    http
       .get(baseUR + `/note/${id}`)
       .then(response => (
         this.mapData(response.data)
@@ -37,7 +51,7 @@ class NoteRepository {
   }
 
   create(data: Response):Note {
-    axios.post("/note", data)
+    http.post("/note", data)
     .then(response => (
       this.mapData(response.data)
     ))
@@ -46,7 +60,7 @@ class NoteRepository {
   }
 
   update(id: number, data: Response):Note {
-    axios.put(`/note/${id}`, data)
+    http.put(`/note/${id}`, data)
     .then(response => (
       this.mapData(response.data)
     ))
@@ -55,15 +69,15 @@ class NoteRepository {
   }
 
   delete(id: number):void {
-    axios.delete(`/note/${id}`);
+    http.delete(`/note/${id}`);
   }
 
   deleteAll():void {
-    axios.delete(`/notes`);
+    http.delete(`/notes`);
   }
 
   findByCode(code: string):Note{
-    axios.get(`/note?code=${code}`)
+    http.get(`/note?code=${code}`)
     .then(response => (
       this.mapData(response.data)
     ))

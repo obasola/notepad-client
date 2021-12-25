@@ -1,82 +1,26 @@
-import { ref } from "vue";
-import http from "../http-commons";
 import Category from "../types/CategoryType";
+import axios from 'axios'
+import CategoryType from "../types/CategoryType";
 
-
-
-class CategoryRepository {
-  
-  category = {
-    id: 0,
-    code: "",
-    name: "",
-    dateModified: new Date(),
-    dateRecorded: new Date(),
-  };
-  
-  categories = [];
-
-  findAllCategories() {
-    http.get("/categories")
-      .then((response) => {
-        this.categories = response.data;
-        console.log(response.data);
-        //return this.categories;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-
-      return this.categories;
-    }
-  
-  getAll(): Promise<any> {
-    return http.get("/categories");
+const apiClient = axios.create({
+  baseURL: "http://10.170.1.105:3000",
+  withCredentials: false,
+  headers: {
+    Accept: 'application/json',
+    'Content-Type': 'application/json'
   }
+})
 
-  get(id: any): Promise<any> {
-    return http.get(`/categories/${id}`);
+export default {
+  getAllCategories() {
+    return apiClient.get('/categories')
+  },
+  getCategory(id: number) {
+    return apiClient.get('/categories/' + id)
+  },
+  postCategory(category: CategoryType) {
+    return apiClient.post('/categories', category)
   }
-
-  create(data: any): Promise<any> {
-    return http.post("/categories", data);
-  }
-
-  update(id: any, data: any): Promise<any> {
-    return http.put(`/categories/${id}`, data);
-  }
-
-  delete(id: any): Promise<any> {
-    return http.delete(`/categories/${id}`);
-  }
-
-  deleteAll(): Promise<any> {
-    return http.delete(`/categories`);
-  }
-
-  findByCode(code: string): Promise<any> {
-    return http.get(`/categories?code=${code}`);
-  }
-
-  categoriesRecord: Category = {
-    code: "",
-    desc: "",
-    dateModified: new Date(),
-    dateRecorded: new Date(),
-    id: 0
-  };
-    mapData(data: Category): Category {
-      this.categoriesRecord.code = data.code;
-      this.categoriesRecord.desc = data.desc;
-      this.categoriesRecord.dateModified = data.dateModified;
-      this.categoriesRecord.dateRecorded = data.dateRecorded;
-      this.categoriesRecord.id = data.id;
-      return this.categoriesRecord;
-    }
 }
-
-export default new CategoryRepository();
-
-
 
 

@@ -7,6 +7,21 @@ import { NavigationFailureType } from "vue-router";
 
 class PersonRepository {
 
+  people = [];
+
+  findAllPersons() {
+    http.get("/people")
+      .then((response) => {
+        this.people = response.data;
+        console.log(response.data);
+        return this.people;
+      })
+      .catch((e) => {
+        console.log(e);
+      });   
+      return [];    
+    }
+
   getAll(): Promise<any> {
     return http.get("/people");
   }

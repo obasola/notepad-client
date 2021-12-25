@@ -1,32 +1,38 @@
-import Category from "@/models/CategoryModel";
-import CategoryRepository from "@/service/CategoryRepository";
+import Note from "@/models/NoteModel";
+import NoteRepository from "@/service/NoteRepository";
 import { defineStore } from "pinia";
 
 export type RootState = {
-  items: Category[];
+  items: Note[];
 };
 
-export const useMainStore = defineStore({
-  id: "mainStore",
+export const useNoteMainStore = defineStore({
+  id: "noteMainStore",
   state: () =>
     ({
       items: [],
     } as RootState),
 
   actions: {
-    createNewItem(item: Category) {
+    createNewItem(item: Note) {
       if (!item) return;
 
       this.items.push(item);
     },
 
-    updateItem(id: string, payload: Category) {
+    findAllNotes() {
+      this.items.push(
+        NoteRepository.getAll()        
+      )
+    },
+
+    updateItem(id: string, payload: Note) {
       if (!id || !payload) return;
 
       const index = this.findIndexById(id);
 
       if (index !== -1) {
-        this.items = CategoryRepository.findAllCategories();
+        this.items = NoteRepository.findAllNotes();
       }
     },
 
@@ -43,7 +49,7 @@ export const useMainStore = defineStore({
     },
 
     findAll() {
-      this.items = CategoryRepository.findAllCategories();
+      this.items = NoteRepository.findAllNotes();
     }
   },
 });

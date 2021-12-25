@@ -34,57 +34,15 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import store from "@/store";
 import CategoryRepository from "@/service/CategoryRepository";
-import Category from "../types/CategoryType";
-import CategoryModel from "../models/CategoryModel";
-import { useRouter, useRoute } from "vue-router";
+import CategoryModel from "@/models/CategoryModel";
 
-const router = useRouter();
-const route = useRoute();
-const categories = ref([]);
-const submitted = ref(false);
 
-const category = ref({
-  id: 0,
-  code: "",
-  name: "",
-  dateModified: new Date(),
-  dateRecorded: new Date(),
-});
-
-function newCatagory() {
-  category.value.id = 0;
-  category.value.code = "";
-  category.value.name = "";
-  category.value.dateRecorded = new Date();
-  category.value.dateModified = new Date();
-  submitted.value = false;
-}
-
-function openCategoryForm() {
-  alert("Btn clicked");
-}
-
-function saveCategoryData() {
-  CategoryRepository.create(category);
-}
-
-function loadSelectedCategory(selectedCat: CategoryModel) {
-  category.value = selectedCat;
-}
-
-function addNewCategoryCode() {
-  // an alternative way
-  router.push({
-    name: "AddCategory",
-    params: {
-      ...route.params,
-    },
-  });
-}
-async function findAllCategories() {
-  categories.value = await CategoryRepository.findAllCategories();
+function findAllCategories() {
   
+  store.dispatch('fetchCategories')
+  const categories = store.state.categories
 }
 </script>
 

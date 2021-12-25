@@ -2,7 +2,7 @@ import NoteType from "../types/NoteType";
 import PersonType from "../types/PersonType";
 import BaseModel from "./BaseModel";
 
-export class PersonModel extends BaseModel implements PersonType {
+class PersonModel extends BaseModel implements PersonType {
   id              = 0;
   email           = "";
   password        = "";
@@ -32,3 +32,5 @@ export class PersonModel extends BaseModel implements PersonType {
     this.todos = todos;
   }
 }
+
+export default PersonModel;

@@ -6,12 +6,12 @@ import {createPinia} from "pinia"
 import VueAxios from 'vue-axios'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
-
+import store from "./store";
 const app = createApp(App);
 app
-  .use(createPinia())
+  //.use(createPinia())
   .use(router)
+  .use(store)
   .use(VueAxios, axios)
-  .use(createPinia())
   .provide('axios', app.config.globalProperties.axios)  // provide 'axios'
   .mount('#app')
