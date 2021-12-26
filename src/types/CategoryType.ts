@@ -1,7 +1,7 @@
 interface CategoryType {
   id: number
   code: string,
-  desc: string,
+  description: string,
   dateRecorded: Date,
   dateModified: Date,
 }

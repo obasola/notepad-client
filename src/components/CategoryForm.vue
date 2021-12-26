@@ -46,47 +46,44 @@
   </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from "vue";
 import '@/assets/css/formLayout.css';
 import CategoryRepository from '../service/CategoryRepository';
+import store from "@/store";
 
-export default {
-  name: "CategoryForm",
-  setup() {
 
     const category = ref({
+      id: 0,
       code: "",
-      name: "",
-      dateRecored: "",
-      dateModified: "",
-      id: "",
+      description: "",
+      dateRecorded: Date,
+      dateModified: Date      
     });
 
     function addCategory() {
-
-      this.category.dateRecored = new Date;
-      this.category.dateModified = null;
-      
-      CategoryRepository.create(category)
-        .then(response => {
-          this.category.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-          alert("Success, category Id is: "+response.data.id);
-        })
-        .catch(e => {
-          console.log(e);
+      category.value.dateRecorded;      
+      try{
+        store.dispatch('createCategory')
+      }
+      catch(e) {
+        console.log(e);
           alert("Error: "+e);
-      });
+      }
     }
 
-    return {
-      category,
-      addCategory,
-    };
-  },
-};
+    function saveCategory() {
+      category.value.dateRecorded;      
+      try{
+        store.dispatch('modifyCategory')
+      }
+      catch(e) {
+        console.log(e);
+          alert("Error on Save: "+e);
+      }
+    }
+
+
 </script>
 
 <style lang="css">

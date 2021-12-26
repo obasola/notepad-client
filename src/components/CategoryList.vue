@@ -7,7 +7,8 @@
           <tr>
             <th class="label-hdrtext" scope="col">Id</th>
             <th class="label-hdrtext" scope="col">Code</th>
-            <th class="label-hdrtext" scope="col">Name</th>
+            <th class="label-hdrtext" scope="col">Description</th>
+            <th class="label-hdrtext" scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -15,6 +16,10 @@
             <td class="label-text">{{ category.id }}</td>
             <td class="label-text">{{ category.code }}</td>
             <td class="label-text">{{ category.description }}</td>
+            <td class="label-text">
+              <button class="btn btn-primary">Edit</button> &nbsp;
+              <button class="btn btn.danger">Delete</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -37,12 +42,19 @@ import { ref } from "vue";
 import store from "@/store";
 import CategoryRepository from "@/service/CategoryRepository";
 import CategoryModel from "@/models/CategoryModel";
+import router from "@/router/router";
 
+const categories = ref<CategoryModel[]> ([]);
 
-function findAllCategories() {
+async function findAllCategories() {
   
-  store.dispatch('fetchCategories')
-  const categories = store.state.categories
+  await store.dispatch('fetchCategories')
+  categories.value = store.state.categories
+}
+
+function editCategory(event: Event) {
+  store.dispatch('fetchCategory');
+  router.push("/editCategory");
 }
 </script>
 

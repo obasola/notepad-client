@@ -5,11 +5,11 @@ class CategoryModel extends BaseModel implements CategoryType {
 
   id = 0;
   code = "";
-  desc = "";
+  description = "";
 
   constructor(id: number, code: string, desc: string) {
     super();
-    this.desc = desc;
+    this.description = desc;
     this.id = id;
     this.code= code;
 
